@@ -26,7 +26,7 @@ model User {
   isVerified  Boolean @default(false)
   createAt    DateTime @default(now())
   updatedAt   DateTime @updatedAt
-  Post        Post[]
+  Post     Post[]
 }
 
 model Post {
