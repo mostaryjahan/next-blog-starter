@@ -27,9 +27,13 @@ const getAllPost = async (req: Request, res: Response) => {
 };
 
 const getPostById = async (req: Request, res: Response) => {
-  const post = await PostService.getPostById(Number(req.params.id));
-  if (!post) return res.status(404).json({ error: "Post not found" });
-  res.json(post);
+  try {
+    const post = await PostService.getPostById(Number(req.params.id));
+    if (!post) return res.status(404).json({ error: "Post not found" });
+    res.json(post);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
 };
 
 const updatePost = async (req: Request, res: Response) => {
@@ -42,10 +46,21 @@ const deletePost = async (req: Request, res: Response) => {
   res.json({ message: "Post deleted" });
 };
 
+
+const getBlogStats = async (req: Request, res: Response) =>{
+  try {
+    const result = await PostService.getBlogStats();
+    res.json(result)
+  } catch (error) {
+    res.status(500).json({error: "Failed to fetch stats"})
+  }
+}
+
 export const PostController = {
   createPost,
   getAllPost,
   getPostById,
   updatePost,
   deletePost,
+  getBlogStats
 };
